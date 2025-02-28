@@ -9,51 +9,58 @@ import SwiftUI
 import SwiftData
 
 struct ContentView: View {
-    @Environment(\.modelContext) private var modelContext
-    @Query private var items: [Item]
-
+    
     var body: some View {
-        NavigationSplitView {
-            List {
-                ForEach(items) { item in
-                    NavigationLink {
-                        Text("Item at \(item.timestamp, format: Date.FormatStyle(date: .numeric, time: .standard))")
-                    } label: {
-                        Text(item.timestamp, format: Date.FormatStyle(date: .numeric, time: .standard))
-                    }
+        ZStack {
+            Color(.blue.opacity(0.2))
+                .ignoresSafeArea()
+            VStack(alignment: .leading, spacing: 20) {
+                
+                Image("mushu_bambi")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .cornerRadius(15)
+                    .padding(.horizontal)
+                HStack {
+                    Text("Mushu and Bambi")
+                        .font(.title)
+                        .fontWeight(.bold)
+                    Spacer()
+                    VStack {
+                        HStack {
+                            Image(systemName: "star.fill")
+                                
+                            Image(systemName: "star.fill")
+                            Image(systemName: "star.fill")
+                            Image(systemName: "star.fill")
+                            Image(systemName: "star.leadinghalf.fill")
+                        }
+                        Text("(Reviews 261)")
+                    }.foregroundColor(.orange)
+                        .font(.caption)
+                    
                 }
-                .onDelete(perform: deleteItems)
-            }
-            .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    EditButton()
-                }
-                ToolbarItem {
-                    Button(action: addItem) {
-                        Label("Add Item", systemImage: "plus")
-                    }
-                }
-            }
-        } detail: {
-            Text("Select an item")
-        }
-    }
+                
+                Text("Come visit the ankle biters of the century!")
+                HStack {
+                    Spacer()
+                    Image(systemName: "fork.knife")
+                    Image(systemName: "binoculars.fill")
+                } .foregroundColor(.gray) .font(.caption)
+                
 
-    private func addItem() {
-        withAnimation {
-            let newItem = Item(timestamp: Date())
-            modelContext.insert(newItem)
-        }
-    }
-
-    private func deleteItems(offsets: IndexSet) {
-        withAnimation {
-            for index in offsets {
-                modelContext.delete(items[index])
             }
+            .padding()
+            .background(Rectangle()
+                .foregroundColor(.pink.opacity(0.2))
+                .cornerRadius(10)
+                .shadow(radius: 20))
+            .padding()
         }
+       
     }
 }
+
 
 #Preview {
     ContentView()
